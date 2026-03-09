@@ -16,3 +16,29 @@ Para ejecutar el servicio debemos escribir (asumiendo que estamos en el director
 ```bash
 java -jar target/daw-0.0.1-SNAPSHOT.jar
 ```
+# Probar el servicio
+
+El servicio arranca sin contactos en memoria. Para añadir un contacto podemos hacer un POST al endpoint `/contactos`. 
+Se puede usar [Postman](https://www.postman.com) para ello. Alternativamente se puede utilizar el comando `curl` disponible
+en muchos sistemas operativos. Un ejemplo con `curl` es el siguiente:
+```bash
+curl --location 'http://localhost:8080/contactos' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "nombre": "Antonio",
+    "apellidos": "García",
+    "email": "antonio@uma.es",
+    "telefono": "768678"
+}'
+```
+
+Podemos constular la lista completa de contactos con:
+```bash
+curl --location 'http://localhost:8080/contactos' \
+--header 'Accept: application/json'
+```
+
+Podemos consultar un contacto en particular con:
+```bash
+curl --location 'http://localhost:8080/contactos/1'
+```
