@@ -1,10 +1,15 @@
 package es.uma.informatica.daw.controladores;
 
 import es.uma.informatica.daw.dtos.ContactoDTO;
+import es.uma.informatica.daw.excepciones.ContactoNoEncontrado;
 import es.uma.informatica.daw.servicios.ContactoServicio;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -24,8 +29,13 @@ public class ContactoControlador {
     }
 
     @PostMapping("")
-    public ContactoDTO aniadirContacto(@RequestBody ContactoDTO contacto) {
-        return servicio.aniadirContacto(contacto);
+    public ResponseEntity<ContactoDTO> aniadirContacto(@RequestBody ContactoDTO contacto,
+                                                       UriComponentsBuilder uriBuilder) throws Exception {
+        ContactoDTO aniadido = servicio.aniadirContacto(contacto);
+        URI location = uriBuilder.path("/contactos/{id}")
+                        .buildAndExpand(aniadido.getId())
+                        .toUri();
+        return ResponseEntity.created(location).body(aniadido);
     }
 
     @GetMapping("/{id}")
@@ -33,4 +43,24 @@ public class ContactoControlador {
         ContactoDTO contacto = servicio.obtenerContactoPorId(id);
         return ResponseEntity.ofNullable(contacto);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminarContacto(@PathVariable Long id) {
+        servicio.eliminarContacto(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ContactoDTO> modificarContacto(@PathVariable Long id,
+                                         @RequestBody ContactoDTO contacto){
+        contacto = servicio.modificarContacto(id, contacto);
+        return ResponseEntity.ofNullable(contacto);
+    }
+
+
+    @ExceptionHandler(ContactoNoEncontrado.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void noEncontrado() {
+    }
+
 }
