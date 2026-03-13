@@ -1,6 +1,7 @@
 package es.uma.informatica.daw.controladores;
 
 import es.uma.informatica.daw.dtos.ContactoDTO;
+import es.uma.informatica.daw.dtos.Mensaje;
 import es.uma.informatica.daw.excepciones.ContactoNoEncontrado;
 import es.uma.informatica.daw.servicios.ContactoServicio;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,11 @@ public class ContactoControlador {
         return ResponseEntity.ofNullable(contacto);
     }
 
+    @PostMapping("/chat")
+    public ResponseEntity<String> contactLLM(@RequestBody Mensaje mensaje) {
+        String response = servicio.contactLLM(mensaje.getPrompt());
+        return ResponseEntity.ok(response);
+    }
 
     @ExceptionHandler(ContactoNoEncontrado.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
