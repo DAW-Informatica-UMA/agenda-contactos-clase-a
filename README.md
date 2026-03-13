@@ -32,7 +32,7 @@ curl --location 'http://localhost:8080/contactos' \
 }'
 ```
 
-Podemos constular la lista completa de contactos con:
+Podemos consultar la lista completa de contactos con:
 ```bash
 curl --location 'http://localhost:8080/contactos' \
 --header 'Accept: application/json'
