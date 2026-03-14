@@ -19,7 +19,7 @@ java -jar target/daw-0.0.1-SNAPSHOT.jar
 # Probar el servicio
 
 El servicio arranca sin contactos en memoria. Para añadir un contacto podemos hacer un POST al endpoint `/contactos`. 
-Se puede usar [Postman](https://www.postman.com) para ello. Alternativamente se puede utilizar el comando `curl` disponible
+Se puede usar [Postman](https://www.postman.com) para ello. Se puede encontrar una colección de pruebas con Postman en [este fichero](Demo%20de%20clase%20REST%202025-26.postman_collection.json). Alternativamente se puede utilizar el comando `curl` disponible
 en muchos sistemas operativos. Un ejemplo con `curl` es el siguiente:
 ```bash
 curl --location 'http://localhost:8080/contactos' \
