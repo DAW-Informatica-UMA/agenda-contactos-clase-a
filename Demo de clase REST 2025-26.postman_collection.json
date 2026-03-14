@@ -1,0 +1,328 @@
+{
+  "info": {
+    "_postman_id": "42c94e15-4adb-4110-836f-2b6b0621096e",
+    "name": "Demo de clase REST 2025/26",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20180280",
+    "_collection_link": "https://go.postman.co/collection/20180280-42c94e15-4adb-4110-836f-2b6b0621096e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Obtener contactos",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/contactos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar contacto por nombre",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/contactos/busca?nombre=Manolo",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos",
+            "busca"
+          ],
+          "query": [
+            {
+              "key": "nombre",
+              "value": "Manolo"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Añadir un contacto",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombre\": \"Manolo\",\n    \"apellidos\": \"García\",\n    \"email\": \"antonio@uma.es\",\n    \"telefono\": \"768678\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/contactos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Modificar contacto",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombre\": \"Antonio\",\n    \"apellidos\": \"García\",\n    \"email\": \"antonio@uma.es\",\n    \"telefono\": \"768678\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/contactos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Modificar contacto que no existe",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombre\": \"Antonio\",\n    \"apellidos\": \"García\",\n    \"email\": \"antonio@uma.es\",\n    \"telefono\": \"768678\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/contactos/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un contacto en XML",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/xml",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/contactos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un contacto en JSON",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:9090/contactos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "contactos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar un contacto",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/contactos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Pedir que introduzca contacto al LLM",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"prompt\": \"Introduce un nuevo contacto llamado Felipe Fernández con e-mail felipe@uma.es\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/contacto/chat",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contacto",
+            "chat"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Pedir contactos a LLM",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"prompt\": \"Dame la lista de contactos\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/contactos/chat",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos",
+            "chat"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Pedir que añada contactos aleatorios",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"prompt\": \"Añade 10 contactos aleatorios a la lista de contactos\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/contactos/chat",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "contactos",
+            "chat"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
