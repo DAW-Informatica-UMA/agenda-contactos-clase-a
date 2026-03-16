@@ -30,7 +30,7 @@ public class ContactoControlador {
 
     @PostMapping("")
     public ResponseEntity<ContactoDTO> aniadirContacto(@RequestBody ContactoDTO contacto,
-                                                       UriComponentsBuilder uriBuilder) throws Exception {
+                                                       UriComponentsBuilder uriBuilder) {
         ContactoDTO aniadido = servicio.aniadirContacto(contacto);
         URI location = uriBuilder.path("/contactos/{id}")
                         .buildAndExpand(aniadido.getId())
