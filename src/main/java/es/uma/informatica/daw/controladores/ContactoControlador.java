@@ -1,6 +1,8 @@
 package es.uma.informatica.daw.controladores;
 
 import es.uma.informatica.daw.dtos.ContactoDTO;
+import es.uma.informatica.daw.dtos.DtoAndEntityMapper;
+import es.uma.informatica.daw.entidades.Contacto;
 import es.uma.informatica.daw.excepciones.ContactoNoEncontrado;
 import es.uma.informatica.daw.servicios.ContactoServicio;
 import org.springframework.http.HttpStatus;
@@ -25,23 +27,29 @@ public class ContactoControlador {
 
     @GetMapping("")
     public List<ContactoDTO> obtenerTodosContactos() {
-        return servicio.obtenerTodosContactos();
+        return servicio.obtenerTodosContactos()
+                .stream()
+                .map(DtoAndEntityMapper::toDto)
+                .toList()
+            ;
     }
 
     @PostMapping("")
     public ResponseEntity<ContactoDTO> aniadirContacto(@RequestBody ContactoDTO contacto,
                                                        UriComponentsBuilder uriBuilder) {
-        ContactoDTO aniadido = servicio.aniadirContacto(contacto);
+        Contacto entidad = DtoAndEntityMapper.toEntity(contacto);
+        Contacto aniadido = servicio.aniadirContacto(entidad);
         URI location = uriBuilder.path("/contactos/{id}")
                         .buildAndExpand(aniadido.getId())
                         .toUri();
-        return ResponseEntity.created(location).body(aniadido);
+        return ResponseEntity.created(location)
+            .body(DtoAndEntityMapper.toDto(aniadido));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ContactoDTO> obtenerUnContacto(@PathVariable Long id) {
-        ContactoDTO contacto = servicio.obtenerContactoPorId(id);
-        return ResponseEntity.ofNullable(contacto);
+        Contacto contacto = servicio.obtenerContactoPorId(id);
+        return ResponseEntity.ok(DtoAndEntityMapper.toDto(contacto));
     }
 
     @DeleteMapping("/{id}")
@@ -53,8 +61,9 @@ public class ContactoControlador {
     @PutMapping("/{id}")
     public ResponseEntity<ContactoDTO> modificarContacto(@PathVariable Long id,
                                          @RequestBody ContactoDTO contacto){
-        contacto = servicio.modificarContacto(id, contacto);
-        return ResponseEntity.ofNullable(contacto);
+        Contacto entidad = DtoAndEntityMapper.toEntity(contacto);
+        entidad = servicio.modificarContacto(id, entidad);
+        return ResponseEntity.ok(DtoAndEntityMapper.toDto(entidad));
     }
 
 

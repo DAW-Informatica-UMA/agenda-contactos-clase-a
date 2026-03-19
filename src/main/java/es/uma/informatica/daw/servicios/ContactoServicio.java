@@ -1,52 +1,49 @@
 package es.uma.informatica.daw.servicios;
 
 import es.uma.informatica.daw.dtos.ContactoDTO;
+import es.uma.informatica.daw.entidades.Contacto;
 import es.uma.informatica.daw.excepciones.ContactoNoEncontrado;
+import es.uma.informatica.daw.repositorios.ContactoRepositorio;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContactoServicio {
 
-    private long nextId = 0L; // Simula un ID autogenerado
-    private List<ContactoDTO> contactos = new ArrayList<>();
 
-    public List<ContactoDTO> obtenerTodosContactos() {
-        return contactos;
+    private ContactoRepositorio repositorio;
+
+    public ContactoServicio(ContactoRepositorio repositorio) {
+        this.repositorio = repositorio;
     }
 
-    public ContactoDTO obtenerContactoPorId(Long id) {
-        for (ContactoDTO contacto : contactos) {
-            if (contacto.getId().equals(id)) {
-                return contacto;
-            }
-        }
-        throw new ContactoNoEncontrado();
-
-        /*
-        return contactos.stream()
-            .filter(c -> c.getId().equals(id))
-            .findFirst()
-            .orElseThrow(ContactoNoEncontrado::new);*/
+    public List<Contacto> obtenerTodosContactos() {
+        return repositorio.findAll();
     }
 
-    public ContactoDTO aniadirContacto(ContactoDTO contacto) {
-        contacto.setId(++nextId);
-        contactos.add(contacto);
-        return contacto;
+    public Contacto obtenerContactoPorId(Long id) {
+        return repositorio.findById(id)
+            .orElseThrow(() -> new ContactoNoEncontrado());
+    }
+
+    public Contacto aniadirContacto(Contacto contacto) {
+        contacto.setId(null);
+        return repositorio.save(contacto);
     }
     public void eliminarContacto(Long id) {
-        ContactoDTO contacto = obtenerContactoPorId(id);
-        contactos.remove(contacto);
+        Contacto contacto = obtenerContactoPorId(id);
+        repositorio.deleteById(id);
     }
-    public ContactoDTO modificarContacto(Long id, ContactoDTO contacto) {
-        ContactoDTO existente = obtenerContactoPorId(id);
+    public Contacto modificarContacto(Long id, Contacto contacto) {
+        Contacto existente = obtenerContactoPorId(id);
         existente.setNombre(contacto.getNombre());
         existente.setApellidos(contacto.getApellidos());
         existente.setEmail(contacto.getEmail());
         existente.setTelefono(contacto.getTelefono());
+        repositorio.save(existente);
         return existente;
 
     }
