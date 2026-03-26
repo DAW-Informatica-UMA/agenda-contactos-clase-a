@@ -5,6 +5,12 @@ import es.uma.informatica.daw.dtos.DtoAndEntityMapper;
 import es.uma.informatica.daw.entidades.Contacto;
 import es.uma.informatica.daw.excepciones.ContactoNoEncontrado;
 import es.uma.informatica.daw.servicios.ContactoServicio;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +32,10 @@ public class ContactoControlador {
 
 
     @GetMapping("")
+    @Operation(summary= "Obtiene todos los contactos",
+    description = "Este endpoint devuelve una lista " +
+        "con todos los contactos almacenados en la base de datos."
+    )
     public List<ContactoDTO> obtenerTodosContactos() {
         return servicio.obtenerTodosContactos()
                 .stream()
@@ -50,6 +60,15 @@ public class ContactoControlador {
     public ResponseEntity<ContactoDTO> obtenerUnContacto(@PathVariable Long id) {
         Contacto contacto = servicio.obtenerContactoPorId(id);
         return ResponseEntity.ok(DtoAndEntityMapper.toDto(contacto));
+    }
+
+    @GetMapping("/search/{nombre}")
+    public ResponseEntity<List<ContactoDTO>> obtenerUnContacto(@PathVariable String nombre) {
+        List<Contacto> contactos = servicio.obtenerContactosPorNombre(nombre);
+        List<ContactoDTO> dtos= contactos.stream()
+            .map(DtoAndEntityMapper::toDto)
+            .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping("/{id}")

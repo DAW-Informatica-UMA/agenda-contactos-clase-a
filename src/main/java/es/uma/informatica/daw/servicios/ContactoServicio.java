@@ -29,6 +29,10 @@ public class ContactoServicio {
             .orElseThrow(() -> new ContactoNoEncontrado());
     }
 
+    public List<Contacto> obtenerContactosPorNombre(String nombre) {
+        return repositorio.findByNombre(nombre);
+    }
+
     public Contacto aniadirContacto(Contacto contacto) {
         contacto.setId(null);
         return repositorio.save(contacto);
