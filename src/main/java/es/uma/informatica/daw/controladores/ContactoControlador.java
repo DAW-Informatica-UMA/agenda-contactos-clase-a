@@ -4,6 +4,7 @@ import es.uma.informatica.daw.dtos.ContactoDTO;
 import es.uma.informatica.daw.dtos.DtoAndEntityMapper;
 import es.uma.informatica.daw.entidades.Contacto;
 import es.uma.informatica.daw.excepciones.ContactoNoEncontrado;
+import es.uma.informatica.daw.seguridad.SecurityConfguration;
 import es.uma.informatica.daw.servicios.ContactoServicio;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ContactoControlador {
 
     private ContactoServicio servicio;
+    private Logger logger = org.apache.logging.log4j.LogManager.getLogger(ContactoControlador.class);
 
     public ContactoControlador(ContactoServicio servicio) {
         this.servicio = servicio;
@@ -58,6 +61,7 @@ public class ContactoControlador {
 
     @GetMapping("/{id}")
     public ResponseEntity<ContactoDTO> obtenerUnContacto(@PathVariable Long id) {
+        logger.info ("Se conecta el usuario: "+ SecurityConfguration.getAuthenticatedUser().map(u->u.getUsername()).orElse("anónimo"));
         Contacto contacto = servicio.obtenerContactoPorId(id);
         return ResponseEntity.ok(DtoAndEntityMapper.toDto(contacto));
     }
